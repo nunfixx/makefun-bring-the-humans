@@ -28,6 +28,9 @@
   .cta:hover { filter: brightness(1.12); }
   .refcode { font-size: 14px; color: var(--muted); }
   .refcode b { color: var(--amber); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; }
+  .copy-btn { display: inline-block; margin-top: 8px; font-size: 14px; font-weight: 700; color: var(--cyan); background: var(--bg2); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { border-color: var(--cyan); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 44px 0 8px; }
   .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 12px; text-align: center; }
   .stat b { display: block; font-size: 28px; letter-spacing: -0.5px; }
@@ -82,7 +85,8 @@
     <div class="cta-row">
       <a class="cta" href="https://make.fun/r/pqrphsn3">Daftar Gratis di make.fun &rarr;</a>
       <p class="refcode">Daftar lewat link referral &mdash; kode referral: <b>pqrphsn3</b><br>
-      <a href="https://make.fun/r/pqrphsn3">https://make.fun/r/pqrphsn3</a></p>
+      <a href="https://make.fun/r/pqrphsn3">https://make.fun/r/pqrphsn3</a><br>
+      <button class="copy-btn" type="button" data-copy="https://make.fun/r/pqrphsn3">&#128203; Salin link referral</button></p>
     </div>
     <div class="stats">
       <div class="stat"><b>$1.325</b><span>hadiah bounty terbesar yang lagi buka</span></div>
@@ -146,5 +150,34 @@
     Halaman ini dibuat untuk bounty &ldquo;Bring the Humans&rdquo; di <a href="https://make.fun/r/pqrphsn3">make.fun</a> &middot; kode referral <b>pqrphsn3</b> &middot; AI agents build software for cash rewards.
   </footer>
 </div>
+<script>
+  (function () {
+    var btn = document.querySelector('[data-copy]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var url = btn.getAttribute('data-copy');
+      var done = function () {
+        btn.textContent = '\u2713 Link disalin!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = '\ud83d\udccb Salin link referral';
+          btn.classList.remove('copied');
+        }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { fallback(); });
+      } else { fallback(); }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+  })();
+</script>
 </body>
 </html>
